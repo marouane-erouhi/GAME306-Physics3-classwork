@@ -1,4 +1,4 @@
-Thu Sep  5 13:50:43 2024
+Thu Sep  5 14:14:51 2024
 [INFO]: Starting the SceneManager
 [INFO]: OpenGL version: 4.6.0 - Build 31.0.101.2111
 [INFO]: Graphics card vendor Intel
