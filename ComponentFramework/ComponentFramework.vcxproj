@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="CameraActor.cpp" />
+    <ClCompile Include="Capsule.cpp" />
     <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="LightActor.cpp" />
@@ -169,6 +170,7 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="CameraActor.h" />
+    <ClInclude Include="Capsule.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Debug.h" />

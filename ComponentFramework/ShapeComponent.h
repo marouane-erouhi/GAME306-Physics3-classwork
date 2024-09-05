@@ -10,7 +10,7 @@
 #include "Sphere.h"
 // TODO for Assignment 1
 #include "Cylinder.h"
-//#include "Capsule.h"
+#include "Capsule.h"
 //#include "Box.h"
 
 // It's handy to keep track of what type of shape we have in this component
@@ -32,7 +32,7 @@ public:
 	ShapeComponent(Component*, GEOMETRY::Sphere);
 	// TODO for Assignment 1:
 	ShapeComponent(Component*, GEOMETRY::Cylinder);
-	//ShapeComponent(Component*, GEOMETRY::Capsule);  
+	ShapeComponent(Component*, GEOMETRY::Capsule);
 	//ShapeComponent(Component*, GEOMETRY::Box); 
 
 	// What shape do we have? Well it will be either a sphere, cylinder, capsule, or box

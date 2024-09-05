@@ -21,7 +21,9 @@
 	  <Mesh name="MarioMesh" filename="meshes/Mario.obj">
 		  <Shape name="MarioCapsuleShape">
 			  <!--TODO for Assignment 1-->
-			  <Capsule 
+			  <Capsule radius="1.0"
+                 sphereCenterPosAx="0.0" sphereCenterPosAy="1.5" sphereCenterPosAz="0.0"
+                 sphereCenterPosBx="0.0" sphereCenterPosBy="-1.5" sphereCenterPosBz="0.0"
 				/>
 		  </Shape>
 	  </Mesh>
@@ -112,7 +114,7 @@
 					 angleDeg="180.0" axisx="0.0" axisy="1.0" axisz="0.0"
 					 scalex="1.0" scaley="1.0" scalez="1.0"/>
 		  <Mesh name="MarioMesh"/>
-		  <Shape name="SkullSphereShape"/>
+		  <Shape name="MarioCapsuleShape"/>
 		  <Shader name ="Shader"/>
 		  <Material name ="MarioMaterial"/>
 		  <Physics />

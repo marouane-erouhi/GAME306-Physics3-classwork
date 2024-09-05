@@ -10,6 +10,7 @@
 #include "LightActor.h"
 #include "Sphere.h"
 #include "Cylinder.h"
+#include "Capsule.h"
 #include <QMath.h>
 
 XMLAssetManager::XMLAssetManager()
@@ -99,18 +100,19 @@ void XMLAssetManager::AddSphereShape(const tinyxml2::XMLElement* child)
 void XMLAssetManager::AddCylinderShape(const tinyxml2::XMLElement* child)
 {
 	// TODO for assignment 1
-	if (std::string(child->FirstChildElement("Shape")->FirstChildElement()->Name()) == "Cylinder") {
-		float cylinderRadius = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("radius");
+	const char* shape = "Cylinder";
+	if (std::string(child->FirstChildElement("Shape")->FirstChildElement()->Name()) == shape) {
+		float cylinderRadius = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("radius");
 
 		Vec3 capCenterPosA;
-		capCenterPosA.x = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosAx");
-		capCenterPosA.y = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosAy");
-		capCenterPosA.z = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosAz");
-		
+		capCenterPosA.x = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("capCenterPosAx");
+		capCenterPosA.y = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("capCenterPosAy");
+		capCenterPosA.z = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("capCenterPosAz");
+
 		Vec3 capCenterPosB;
-		capCenterPosB.x = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosBx");
-		capCenterPosB.y = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosBy");
-		capCenterPosB.z = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosBz");
+		capCenterPosB.x = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("capCenterPosBx");
+		capCenterPosB.y = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("capCenterPosBy");
+		capCenterPosB.z = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("capCenterPosBz");
 
 		GEOMETRY::Cylinder cylinder;
 		cylinder.set(cylinderRadius, capCenterPosA, capCenterPosB);
@@ -122,6 +124,25 @@ void XMLAssetManager::AddCylinderShape(const tinyxml2::XMLElement* child)
 void XMLAssetManager::AddCapsuleShape(const tinyxml2::XMLElement* child)
 {
 	// TODO for assignment 1
+	const char* shape = "Capsule";
+	if (std::string(child->FirstChildElement("Shape")->FirstChildElement()->Name()) == shape) {
+		float cylinderRadius = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("radius");
+
+		Vec3 sphereCenterPosA;
+		sphereCenterPosA.x = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("sphereCenterPosAx");
+		sphereCenterPosA.y = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("sphereCenterPosAy");
+		sphereCenterPosA.z = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("sphereCenterPosAz");
+
+		Vec3 sphereCenterPosB;
+		sphereCenterPosB.x = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("sphereCenterPosBx");
+		sphereCenterPosB.y = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("sphereCenterPosBy");
+		sphereCenterPosB.z = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("sphereCenterPosBz");
+
+		GEOMETRY::Capsule capsule;
+		capsule.set(cylinderRadius, sphereCenterPosA, sphereCenterPosB);
+
+		AddComponent<ShapeComponent>(child->FirstChildElement("Shape")->Attribute("name"), nullptr, capsule);
+	}
 }
 
 void XMLAssetManager::AddBoxShape(const tinyxml2::XMLElement* child)
