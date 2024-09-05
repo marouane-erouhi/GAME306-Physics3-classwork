@@ -11,7 +11,9 @@
 	  <Mesh name="CheckerMesh" filename="meshes/CheckerPiece.obj">
 		  <Shape name ="CheckerCylinderShape">
 			  <!--TODO for Assignment 1-->
-			  <Cylinder 
+			  <Cylinder radius="4.0"
+                  capCenterPosAx="0.0" capCenterPosAy="0.0" capCenterPosAz="5.0"
+									capCenterPosBx="0.0" capCenterPosBy="0.0" capCenterPosBz="-5.0"
 				/>
 		  </Shape>
 	  </Mesh>
@@ -62,11 +64,11 @@
 	  </Actor>
 
 	  <Actor actorname="ActorChecker1" parent="ActorGameBoard">
-		  <Transform posx="-4.5" posy="-4.5" posz="0.0"
+		  <Transform posx="-3.0" posy="0.0" posz="0.0"
 					 angleDeg="0.0" axisx="1.0" axisy="0.0" axisz="0.0"
 					 scalex="0.15" scaley="0.15" scalez="0.15"/>
 		  <Mesh name="CheckerMesh"/>
-		  <Shape name="SkullSphereShape"/>
+		  <Shape name="CheckerCylinderShape"/>
 		  <Shader name ="Shader"/>
 		  <Material name ="RedCheckerMaterial"/>
 		  <Physics />
@@ -77,7 +79,7 @@
 					 angleDeg="90.0" axisx="1.0" axisy="0.0" axisz="0.0"
 					 scalex="1.0" scaley="1.0" scalez="1.0"/>
 		  <Mesh name="CheckerMesh"/>
-		  <Shape name="SkullSphereShape"/>
+		  <Shape name="CheckerCylinderShape"/>
 		  <Shader name ="Shader"/>
 		  <Material name ="RedCheckerMaterial"/>
 		  <Physics />

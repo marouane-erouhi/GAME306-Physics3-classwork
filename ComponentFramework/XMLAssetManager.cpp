@@ -9,6 +9,7 @@
 #include "CameraActor.h"
 #include "LightActor.h"
 #include "Sphere.h"
+#include "Cylinder.h"
 #include <QMath.h>
 
 XMLAssetManager::XMLAssetManager()
@@ -98,6 +99,24 @@ void XMLAssetManager::AddSphereShape(const tinyxml2::XMLElement* child)
 void XMLAssetManager::AddCylinderShape(const tinyxml2::XMLElement* child)
 {
 	// TODO for assignment 1
+	if (std::string(child->FirstChildElement("Shape")->FirstChildElement()->Name()) == "Cylinder") {
+		float cylinderRadius = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("radius");
+
+		Vec3 capCenterPosA;
+		capCenterPosA.x = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosAx");
+		capCenterPosA.y = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosAy");
+		capCenterPosA.z = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosAz");
+		
+		Vec3 capCenterPosB;
+		capCenterPosB.x = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosBx");
+		capCenterPosB.y = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosBy");
+		capCenterPosB.z = child->FirstChildElement("Shape")->FirstChildElement("Cylinder")->FloatAttribute("capCenterPosBz");
+
+		GEOMETRY::Cylinder cylinder;
+		cylinder.set(cylinderRadius, capCenterPosA, capCenterPosB);
+
+		AddComponent<ShapeComponent>(child->FirstChildElement("Shape")->Attribute("name"), nullptr, cylinder);
+	}
 }
 
 void XMLAssetManager::AddCapsuleShape(const tinyxml2::XMLElement* child)

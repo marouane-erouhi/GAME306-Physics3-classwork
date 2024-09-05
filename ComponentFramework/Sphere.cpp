@@ -11,6 +11,7 @@ void Sphere::generateVerticesAndNormals()
 	const float deltaTheta = 5.0f;
 	// deltaPhi governs how many rings there are in total. Try messing with it
 	const float deltaPhi = 45.0f;
+	// create points for the ring
 	for (float thetaDeg = 0.0f; thetaDeg <= 360.0f; thetaDeg += deltaTheta)
 	{
 		// Build a ring

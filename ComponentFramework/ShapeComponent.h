@@ -9,7 +9,7 @@
 #include "Shape.h"
 #include "Sphere.h"
 // TODO for Assignment 1
-//#include "Cylinder.h"
+#include "Cylinder.h"
 //#include "Capsule.h"
 //#include "Box.h"
 
@@ -31,7 +31,7 @@ class ShapeComponent: public Component{
 public:
 	ShapeComponent(Component*, GEOMETRY::Sphere);
 	// TODO for Assignment 1:
-	//ShapeComponent(Component*, GEOMETRY::Cylinder); 
+	ShapeComponent(Component*, GEOMETRY::Cylinder);
 	//ShapeComponent(Component*, GEOMETRY::Capsule);  
 	//ShapeComponent(Component*, GEOMETRY::Box); 
 
