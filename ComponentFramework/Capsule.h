@@ -30,7 +30,7 @@ namespace GEOMETRY {
 		/// print the values of the sphere and add a comment if you wish
 		void print(const char* comment = nullptr) {
 			if (comment) printf("%s\n", comment);
-			printf("CapA:%f %f %f\t CapB:%f %f %f\t r:%f\n",
+			printf("SphereA:%f %f %f\t SphereB:%f %f %f\t r:%f\n",
 				sphereCentrePosA.x, sphereCentrePosA.y, sphereCentrePosA.z,
 				sphereCentrePosB.x, sphereCentrePosB.y, sphereCentrePosB.z, r);
 		}
