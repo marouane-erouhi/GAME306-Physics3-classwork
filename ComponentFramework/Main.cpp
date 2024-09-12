@@ -7,6 +7,7 @@
 #include <string>
 #include "SceneManager.h"
 #include "Debug.h"
+#include <Vector.h>
 
 // 2022-04-05
 // Hooked up with GitHub thanks to Gail Harris!
@@ -25,7 +26,15 @@
 // finish the lightActor. Build material
 // bind the material, before the draw call
 // pass the light position to the GPU
-  
+
+
+// Non-member overload of << operator for Vec3
+// not working
+std::ostream& operator<<(std::ostream& os, MATH::Vec3& vec) {
+	os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+	return os;
+}
+
 int main(int argc, char* args[]) {
 	// Garen Johnston figured out a way to clear any memory leaks
 	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); //using this to check on program exit the memory leak involving ofstream is gone, i think calling _crtDumpMemoryLeaks before exit its finding a memory leak that is actually cleaned up on exit
