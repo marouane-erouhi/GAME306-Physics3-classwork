@@ -3,6 +3,23 @@
 
 using namespace MATH;
 using namespace GEOMETRY;
+
+inline static Vec3 perpendicular(const Vec3& dir) {
+	/// The 0.01 added are for preventing division by zero
+	// If dir is not parallel to the x-axis, choose (1, 0, 0) as the arbitrary vector
+	if (fabs(dir.x) < fabs(dir.y) && fabs(dir.x) < fabs(dir.z)) {
+		return VMath::normalize(VMath::cross(Vec3(1.0f, 0.01f, 0.01f), dir));
+	}
+	// If dir is not parallel to the y-axis, choose (0, 1, 0)
+	else if (fabs(dir.y) < fabs(dir.x) && fabs(dir.y) < fabs(dir.z)) {
+		return VMath::normalize(VMath::cross(Vec3(0.01f, 1.0f, 0.01f), dir));
+	}
+	// Otherwise, use (0, 0, 1) for the z-axis
+	else {
+		return VMath::normalize(VMath::cross(Vec3(0.01f, 0.01f, 1.0f), dir));
+	}
+}
+
 // TODO: Cylinder seems to be missmatched with the model/texture
 void GEOMETRY::Cylinder::generateVerticesAndNormals() {
 	// We need to fill the vertices and normals arrays with the correct data for a sphere
@@ -12,36 +29,27 @@ void GEOMETRY::Cylinder::generateVerticesAndNormals() {
 	// Mar: this seems to me to determin the densitiy of the points along a circle
 	const float deltaPhi = 10.0f;
 
-	// create circle
-	// push vertices
-	// move down a bit
-	// repeat
-
-
 	float distanceBetweenCaps = VMath::distance(capCenterPosA, capCenterPosB);
-	// how many circles between them?
-	int numberOfCircles = 5;
-
-	// calculate the distance between each circle
+	int numberOfCircles = 5; // how many circles between them?
 	float distanceBetweenCircles = distanceBetweenCaps / numberOfCircles;
 
-	Vec3 circle(r, r, 0.0);
+	Vec3 dir = VMath::normalize(capCenterPosB - capCenterPosA); // Axis direction
+	Vec3 circle(r, 0.0f, 0.0f); // Initial point on the cap
+	Vec3 perp = perpendicular(dir); // Perpendicular vector to the axis
+
 	for (int i = 0; i < numberOfCircles; i++) {
 		for (float phiDeg = 0.0f; phiDeg <= 360.0f; phiDeg += deltaPhi) {
-			// Rotate a point in the ring around the y-axis to build a sphere!
-			/// circle is just imaginary, every `deltaPhi` degrees, make that a point
-			Matrix3 rotationMatrix = MMath::rotate(deltaPhi, Vec3(0.0f, 1.0f, 0.0f));
-			/// rotate the circle by `deltaPhi`
-			circle = rotationMatrix * circle;
-			/// then sample that point and add to the vertices
-			// Push the circle point to our vertices array
-			vertices.push_back(circle);
-			// The normal of a sphere points outwards from the center position Vec3(x, y, z)
-			normals.push_back(circle - capCenterPosA);
+			// Rotate around the cylinder's axis
+			Matrix3 rotationMatrix = MMath::rotate(phiDeg, dir);
+			Vec3 rotatedPoint = rotationMatrix * (circle + perp); // Rotate around axis
+
+			// Add the vertex
+			vertices.push_back(capCenterPosA + dir * i * distanceBetweenCircles + rotatedPoint);
+
+			// Add the normal
+			normals.push_back(VMath::normalize(rotatedPoint)); // Normal points outwards
 		}
-		// move the circle down by distanceBetweenCircles
-		Matrix4 translationMatrix = MMath::translate(0.0f, distanceBetweenCircles, 0.0);
-		circle = translationMatrix * Vec4(circle);
 	}
+
 	StoreMeshData(GL_POINTS);
 }

@@ -21,9 +21,9 @@
 	  <Mesh name="MarioMesh" filename="meshes/Mario.obj">
 		  <Shape name="MarioCapsuleShape">
 			  <!--TODO for Assignment 1-->
-			  <Capsule radius="1.0"
-                 sphereCenterPosAx="0.0" sphereCenterPosAy="1.5" sphereCenterPosAz="0.0"
-                 sphereCenterPosBx="0.0" sphereCenterPosBy="-1.5" sphereCenterPosBz="0.0"
+			  <Capsule radius="0.8"
+                 sphereCenterPosAx="0.0" sphereCenterPosAy="0.6" sphereCenterPosAz="0.0"
+                 sphereCenterPosBx="0.0" sphereCenterPosBy="-0.6" sphereCenterPosBz="0.0"
 				/>
 		  </Shape>
 	  </Mesh>
