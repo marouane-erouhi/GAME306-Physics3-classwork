@@ -23,6 +23,7 @@
     <ProjectGuid>{614C2865-E38B-423B-8A72-E9D57BC43A73}</ProjectGuid>
     <RootNamespace>ComponentFramework</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Physics3-Proj</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
