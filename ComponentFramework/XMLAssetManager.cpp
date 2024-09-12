@@ -11,6 +11,7 @@
 #include "Sphere.h"
 #include "Cylinder.h"
 #include "Capsule.h"
+#include "Box.h"
 #include <QMath.h>
 
 XMLAssetManager::XMLAssetManager()
@@ -166,6 +167,10 @@ void XMLAssetManager::AddBoxShape(const tinyxml2::XMLElement* child)
 		orientation.ijk.x = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("axisX");
 		orientation.ijk.y = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("axisY");
 		orientation.ijk.z = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("axisZ");
+
+		GEOMETRY::Box box;
+		box.set(center, halfExtents, orientation);
+		AddComponent<ShapeComponent>(child->FirstChildElement("Shape")->Attribute("name"), nullptr, box);
 	}
 }
 
