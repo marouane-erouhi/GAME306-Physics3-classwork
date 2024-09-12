@@ -9,6 +9,8 @@ ShapeComponent::ShapeComponent(Component* parent_, Sphere sphere_) :Component(pa
 	shape = std::make_shared<Sphere>(Vec3(sphere_.x, sphere_.y, sphere_.z), sphere_.r);
 }
 
+// TODO for Assignment 1:
+// The other constructors that take in Cylinder, Capsule, or Box 
 ShapeComponent::ShapeComponent(Component* parent_, GEOMETRY::Cylinder cylinder_) :Component(parent_){
 	shapeType = ShapeType::cylinder;
 	shape = std::make_shared<Cylinder>(cylinder_.r, cylinder_.capCenterPosA, cylinder_.capCenterPosB);
@@ -19,8 +21,10 @@ ShapeComponent::ShapeComponent(Component* parent_, GEOMETRY::Capsule capsule_) :
 	shape = std::make_shared<Capsule>(capsule_.r, capsule_.sphereCentrePosA, capsule_.sphereCentrePosB);
 }
 
-// TODO for Assignment 1:
-// The other constructors that take in Cylinder, Capsule, or Box 
+ShapeComponent::ShapeComponent(Component* parent_, GEOMETRY::Box box_) :Component(parent_) {
+	shapeType = ShapeType::box;
+	shape = std::make_shared<Box>(box_.center, box_.halfExtents, box_.orientation);
+}
 
 ShapeComponent::~ShapeComponent()
 {
