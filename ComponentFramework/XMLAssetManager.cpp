@@ -148,25 +148,6 @@ void XMLAssetManager::AddCapsuleShape(const tinyxml2::XMLElement* child)
 void XMLAssetManager::AddBoxShape(const tinyxml2::XMLElement* child)
 {
 	// TODO for assignment 1
-	const char* shape = "Box";
-	if (std::string(child->FirstChildElement("Shape")->FirstChildElement()->Name()) == shape) {
-		Vec3 center;
-		center.x = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("centerX");
-		center.y = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("centerY");
-		center.z = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("centerZ");
-
-		Vec3 halfExtents;
-		halfExtents.x = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("halfExtentsX");
-		halfExtents.y = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("halfExtentsY");
-		halfExtents.z = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("halfExtentsZ");
-
-		Quaternion orientation;
-		// TODO: double check this for the w value
-		orientation.w = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("angleDeg");
-		orientation.ijk.x = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("axisX");
-		orientation.ijk.y = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("axisY");
-		orientation.ijk.z = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("axisZ");
-	}
 }
 
 void XMLAssetManager::AddMaterial(const tinyxml2::XMLElement* child)

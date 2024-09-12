@@ -1,4 +1,4 @@
-Thu Sep  5 17:33:37 2024
+Thu Sep  5 16:54:50 2024
 [INFO]: Starting the SceneManager
 [INFO]: OpenGL version: 4.6.0 - Build 31.0.101.2111
 [INFO]: Graphics card vendor Intel
@@ -12,3 +12,12 @@ Thu Sep  5 17:33:37 2024
 "modelMatrix" loc:2
 "myTexture" loc:0
 
+[INFO]: Deleting assets for Actor/Components: 
+[INFO]: Deleting assets for Actor/Components: 
+[INFO]: Deleting assets for Actor/Components: 
+[INFO]: Deleting assets for Actor/Components: 
+[INFO]: Deleting assets for Actor/Components: 
+[INFO]: Deleting assets for Actor/Components: 
+[INFO]: Deleting assets for Actor/Components: 
+[INFO]: Deleting assets for Actor/Components: 
+[INFO]: Deleting the SceneManager

@@ -31,9 +31,7 @@
 	  <Mesh name="PlaneMesh" filename="meshes/Plane.obj">
 		  <Shape name="CheckerboardPlaneShape">
 			  <!--TODO for Assignment 1-->
-			  <Box centerX="0.0" centerY="0.0" centerZ="-0.2"
-             halfExtentsX="5.1" halfExtentsY="5.1" haldExtentsZ="0.1"
-             angleDeg="0.0" axisX="1.0" axisY="0.0" axisZ="0.0"
+			  <Box 
 				/>
 		  </Shape>
 	  </Mesh>
@@ -41,9 +39,7 @@
 	  <Mesh name="CubeMesh" filename="meshes/Cube.obj">
 		  <Shape name ="CubeShape">
 			  <!--TODO for Assignment 1-->
-        <Box centerX="0.0" centerY="0.0" centerZ="0.0"
-             halfExtentsX="1.0" halfExtentsY="1.0" haldExtentsZ="1.0"
-             angleDeg="0.0" axisX="1.0" axisY="0.0" axisZ="0.0"
+			  <Box 
 				/>
 		  </Shape>
 	  </Mesh>
@@ -63,7 +59,7 @@
 				   angleDeg="-20.0" axisx="1.0" axisy="0.0" axisz="0.0"
 				   scalex="1.0" scaley="1.0" scalez="1.0"/>
 		<Mesh name="PlaneMesh"/>
-		<Shape name="CheckerboardPlaneShape"/>
+		<Shape name="SkullSphereShape"/>
 		<Shader name ="Shader"/>
 		<Material name ="BoardMaterial"/>
 		<Physics />
