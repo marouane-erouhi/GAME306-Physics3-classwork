@@ -29,7 +29,7 @@ void GEOMETRY::Capsule::generateVerticesAndNormals() {
 	for (float thetaDeg = 0.0f; thetaDeg <= 90.0f; thetaDeg += deltaTheta) {
 		// Build a ring
 		Vec3 circle(r * sin(thetaDeg * DEGREES_TO_RADIANS), r * cos(thetaDeg * DEGREES_TO_RADIANS), 0.0f);
-		for (float phiDeg = 0.0f; phiDeg <= 180.0f; phiDeg += deltaPhi) {
+		for (float phiDeg = 0.0f; phiDeg <= 360.0f; phiDeg += deltaPhi) {
 			// Rotate a point in the ring around the y-axis to build a sphere!
 			//Matrix3 rotationMatrix = MMath::rotate(deltaPhi, Vec3(0.0f, 1.0f, 0.0f));
 			Matrix3 rotationMatrix = MMath::rotate(deltaPhi, dir);
@@ -38,6 +38,8 @@ void GEOMETRY::Capsule::generateVerticesAndNormals() {
 			vertices.push_back(circle + sphereCentrePosA);
 			// The normal of a sphere points outwards from the center position Vec3(x, y, z)
 			normals.push_back(circle - Vec3(sphereCentrePosA.x, sphereCentrePosA.y, sphereCentrePosA.z));
+
+
 		}
 	}
 	// half sphere 2 ------------------------
