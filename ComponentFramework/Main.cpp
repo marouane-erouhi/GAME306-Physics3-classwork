@@ -30,10 +30,13 @@
 
 // Non-member overload of << operator for Vec3
 // not working
-std::ostream& operator<<(std::ostream& os, MATH::Vec3& vec) {
-	os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
-	return os;
-}
+//namespace MATH {
+//
+//	static friend std::ostream& operator<<(std::ostream& os, MATH::Vec3& vec) {
+//		os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+//		return os;
+//	}
+//}
 
 int main(int argc, char* args[]) {
 	// Garen Johnston figured out a way to clear any memory leaks
