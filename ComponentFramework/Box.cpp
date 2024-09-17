@@ -2,114 +2,57 @@
 #include "QMath.h"
 
 void GEOMETRY::Box::generateVerticesAndNormals() {
-	/*
-	MATH::Vec3 vertex0(-1.0f, -1.0f, -1.0f); // Front-Left-Bottom
-	MATH::Vec3 vertex1(1.0f, -1.0f, -1.0f); // Front-Right-Bottom
-	MATH::Vec3 vertex2(1.0f, 1.0f, -1.0f); // Back-Right-Bottom
-	MATH::Vec3 vertex3(-1.0f, 1.0f, -1.0f); // Back-Left-Bottom
-	MATH::Vec3 vertex4(-1.0f, -1.0f, 1.0f); // Front-Left-Top
-	MATH::Vec3 vertex5(1.0f, -1.0f, 1.0f); // Front-Right-Top
-	MATH::Vec3 vertex6(1.0f, 1.0f, 1.0f); // Back-Right-Top
-	MATH::Vec3 vertex7(-1.0f, 1.0f, 1.0f); // Back-Left-Top
-
-	// front tri 1---------
-	vertices.push_back(vertex5);
-	vertices.push_back(vertex4);
-	vertices.push_back(vertex0);
-	// front tri 2
-	vertices.push_back(vertex0);
-	vertices.push_back(vertex1);
-	vertices.push_back(vertex5);
-
-	// right tri 1------
-	vertices.push_back(vertex7);
-	vertices.push_back(vertex5);
-	vertices.push_back(vertex1);
-	// right tri 2
-	vertices.push_back(vertex1);
-	vertices.push_back(vertex3);
-	vertices.push_back(vertex7);
-	
-	// back tri 1---------
-	vertices.push_back(vertex6);
-	vertices.push_back(vertex7);
-	vertices.push_back(vertex3);
-	// back tri 2
-	vertices.push_back(vertex3);
-	vertices.push_back(vertex2);
-	vertices.push_back(vertex6);
-
-	// left tri 1---------
-	vertices.push_back(vertex4);
-	vertices.push_back(vertex7);
-	vertices.push_back(vertex3);
-	// left tri 2
-	vertices.push_back(vertex3);
-	vertices.push_back(vertex0);
-	vertices.push_back(vertex4);
-
-	// bottom tri 1---------
-	vertices.push_back(vertex1);
-	vertices.push_back(vertex0);
-	vertices.push_back(vertex3);
-	// bottom tri 2
-	vertices.push_back(vertex3);
-	vertices.push_back(vertex2);
-	vertices.push_back(vertex1);
-
-	// top tri 1---------
-	vertices.push_back(vertex6);
-	vertices.push_back(vertex7);
-	vertices.push_back(vertex4);
-	// top tri 2
-	vertices.push_back(vertex4);
-	vertices.push_back(vertex5);
-	vertices.push_back(vertex6);
-	*/
-	// -------------------
 	// Define the vertices of the cube in local space
-	std::vector<MATH::Vec3> localVertices = {
-		MATH::Vec3(-1, -1, -1), MATH::Vec3(1, -1, -1), MATH::Vec3(1, 1, -1), MATH::Vec3(-1, 1, -1),
-		MATH::Vec3(-1, -1, 1), MATH::Vec3(1, -1, 1), MATH::Vec3(1, 1, 1), MATH::Vec3(-1, 1, 1)
+	MATH::Vec3 localVertices[] = {
+		MATH::Vec3(-1, -1, -1), // 0: Bottom-Left-Back
+		MATH::Vec3(1, -1, -1),  // 1: Bottom-Right-Back
+		MATH::Vec3(1, 1, -1),   // 2: Top-Right-Back
+		MATH::Vec3(-1, 1, -1),  // 3: Top-Left-Back
+		MATH::Vec3(-1, -1, 1),  // 4: Bottom-Left-Front
+		MATH::Vec3(1, -1, 1),   // 5: Bottom-Right-Front
+		MATH::Vec3(1, 1, 1),    // 6: Top-Right-Front
+		MATH::Vec3(-1, 1, 1)    // 7: Top-Left-Front
 	};
-
 	// Define the normals of the cube in local space
 	MATH::Vec3 localNormals[] = {
-		MATH::Vec3(0, 0, -1), MATH::Vec3(0, 0, 1), MATH::Vec3(-1, 0, 0), MATH::Vec3(1, 0, 0),
-		MATH::Vec3(0, -1, 0), MATH::Vec3(0, 1, 0)
+		MATH::Vec3(0, 0, -1),  // Back face normal
+		MATH::Vec3(0, 0, 1),   // Front face normal
+		MATH::Vec3(-1, 0, 0),  // Left face normal
+		MATH::Vec3(1, 0, 0),   // Right face normal
+		MATH::Vec3(0, -1, 0),  // Bottom face normal
+		MATH::Vec3(0, 1, 0)    // Top face normal
 	};
-
-	// Define the indices for the cube
 	int indices[] = {
-		0, 1, 2, 2, 3, 0,  // Front
-		4, 5, 6, 6, 7, 4,  // Back
-		0, 4, 5, 5, 1, 0,  // Bottom
-		2, 6, 7, 7, 3, 2,  // Top
-		0, 4, 7, 7, 3, 0,  // Left
-		1, 5, 6, 6, 2, 1   // Right
+		4, 5, 6, 6, 7, 4,  // Front (vertices 4, 5, 6, 7 form the front face)
+		0, 1, 2, 2, 3, 0,  // Back  (vertices 0, 1, 2, 3 form the back face)
+		0, 1, 5, 5, 4, 0,  // Bottom (vertices 0, 1, 5, 4 form the bottom face)
+		2, 3, 7, 7, 6, 2,  // Top    (vertices 2, 3, 7, 6 form the top face)
+		0, 3, 7, 7, 4, 0,  // Left   (vertices 0, 3, 7, 4 form the left face)
+		1, 2, 6, 6, 5, 1   // Right  (vertices 1, 2, 6, 5 form the right face)
 	};
+	std::vector<MATH::Vec3> tempVertecies;
+	std::vector<MATH::Vec3> tempNormals;
 
 	// Transform the vertices and normals by the center, halfExtents and orientation
 	for (int i = 0; i < 8; i++) {
-		//MATH::Vec3 vertex = localVertices[i] * halfExtents + center;
-		MATH::Vec3 vertex = MATH::Vec3();
-		vertex.x = localVertices.at(i).x * halfExtents.x;
-		vertex.y = localVertices.at(i).y * halfExtents.y;
-		vertex.z = localVertices.at(i).z * halfExtents.z;
-		vertex = vertex + center;
+		MATH::Vec3 vertex = MATH::Vec3(
+			localVertices[i].x * halfExtents.x,
+			localVertices[i].y * halfExtents.y,
+			localVertices[i].z * halfExtents.z
+		) + center;
 
 		MATH::Vec3 normal = MATH::QMath::rotate(localNormals[i % 6], orientation);
 		MATH::VMath::normalize(normal);
 
-		vertices.push_back(vertex);
-		normals.push_back(normal);
+		tempVertecies.push_back(vertex);
+		tempNormals.push_back(normal);
+	}
+	// add in the correct order
+	for (int i = 0; i < 36; i++) {
+		vertices.push_back(tempVertecies[indices[i]]);
+		normals.push_back(tempNormals[indices[i] / 6]);// face normal
 	}
 
-	// Add the vertices in the correct order (counter-clockwise)
-	for (int i = 0; i < 36; i++) {
-		vertices.push_back(vertices[indices[i]]);
-		normals.push_back(normals[indices[i]]);
-	}
 
 	StoreMeshData(GL_TRIANGLES);
 }
