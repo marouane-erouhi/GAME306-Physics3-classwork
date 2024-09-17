@@ -42,7 +42,21 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 	switch (sdlEvent.type) {
 	case SDL_KEYDOWN:
 		if (sdlEvent.key.keysym.scancode == SDL_SCANCODE_LEFT) {
+			Actor* a = (Actor*)actors["ActorCube"].get();
+			TransformComponent transform = a->GetComponent<TransformComponent>().get();
+			//transform.orientation + 
+			Quaternion rotation = QMath::angleAxisRotation(5.0f, MATH::Vec3(1.0f,0.0f, 0.0f));
+			transform.orientation = rotation * transform.orientation;
+			std::cout << "We have a box" << std::endl;
 
+			//a.
+
+			/*Component* b = a.get();
+			ShapeComponent* c = (ShapeComponent*)b;
+			if (c->shapeType == ShapeType::box) {
+				std::cout << "We have a box" << std::endl;
+				auto d = (GEOMETRY::Box) c.shape;
+			}*/
 		}
 		else if (sdlEvent.key.keysym.scancode == SDL_SCANCODE_RIGHT) {
 
