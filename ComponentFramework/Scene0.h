@@ -26,5 +26,9 @@ struct Scene0 : public Scene
 	// TODO for Assignment 2:
 	// We'll use a ray to click on our geometry objects 
 	// GEOMETRY::RayIntersectionInfo rayInfo;
+
+	MATH::Vec3 oldMousePos;
+	MATH::Vec3 oldMouseVel;
+	float oldDeltaTime = 0.0f;
 };
 
