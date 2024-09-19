@@ -1,66 +1,60 @@
 #include "Box.h"
 #include "QMath.h"
+using namespace MATH;
+
+MATH::Vec3 multComponents(MATH::Vec3 a, MATH::Vec3 b) {
+	return MATH::Vec3(
+		a.x * b.x,
+		a.y * b.y,
+		a.z * b.z
+	);
+}
 
 void GEOMETRY::Box::generateVerticesAndNormals() {
-/*
-	// Define the vertices of the cube in local space
-	MATH::Vec3 localVertices[] = {
+	// Set up the eight vertices of the box
+	MATH::Vec3 localVertices[] = { // +x right - +y top - +z front
 		MATH::Vec3(-1, -1, -1), // 0: Bottom-Left-Back
 		MATH::Vec3(1, -1, -1),  // 1: Bottom-Right-Back
 		MATH::Vec3(1, 1, -1),   // 2: Top-Right-Back
 		MATH::Vec3(-1, 1, -1),  // 3: Top-Left-Back
-		MATH::Vec3(-1, -1, 1),  // 4: Bottom-Left-Front -x -y +z
+		MATH::Vec3(-1, -1, 1),  // 4: Bottom-Left-Front		-x -y +z
 		MATH::Vec3(1, -1, 1),   // 5: Bottom-Right-Front
 		MATH::Vec3(1, 1, 1),    // 6: Top-Right-Front
 		MATH::Vec3(-1, 1, 1)    // 7: Top-Left-Front
 	};
-	// Define the normals of the cube in local space
 	MATH::Vec3 localNormals[] = {
-		MATH::Vec3(0, 0, -1),  // Back face normal		-z
-		MATH::Vec3(0, 0, 1),   // Front face normal		+z
-		MATH::Vec3(-1, 0, 0),  // Left face normal		-x
-		MATH::Vec3(1, 0, 0),   // Right face normal		+x
-		MATH::Vec3(0, -1, 0),  // Bottom face normal	-y
-		MATH::Vec3(0, 1, 0)    // Top face normal		+y
+		MATH::Vec3(0, 0, 1),	// 1 Front face normal		+z
+		MATH::Vec3(0, 0, -1),	// 0 Back face normal		-z
+		MATH::Vec3(0, -1, 0),	// 4 Bottom face normal		-y
+		MATH::Vec3(0, 1, 0),	// 5 Top face normal		+y
+		MATH::Vec3(-1, 0, 0),	// 2 Left face normal		-x
+		MATH::Vec3(1, 0, 0)		// 3 Right face normal		+x
 	};
-	int indices[] = {
-		4, 5, 6, 6, 7, 4,  // Front		(vertices 4, 5, 6, 7 form the front face)
-		0, 1, 2, 2, 3, 0,  // Back		(vertices 0, 1, 2, 3 form the back face)
-		0, 1, 5, 5, 4, 0,  // Bottom	(vertices 0, 1, 5, 4 form the bottom face)
-		2, 3, 7, 7, 6, 2,  // Top		(vertices 2, 3, 7, 6 form the top face)
-		0, 3, 7, 7, 4, 0,  // Left		(vertices 0, 3, 7, 4 form the left face)
-		1, 2, 6, 6, 5, 1   // Right		(vertices 1, 2, 6, 5 form the right face)
+	int indices[6][6] = {
+		{ 4, 5, 6, 6, 7, 4},	// Front	- bot tri	top tri		-- checked
+		{ 0, 1, 2, 2, 3, 0},	// Back		- 
+		{ 0, 1, 5, 5, 4, 0},	// Bottom
+		{ 2, 3, 7, 7, 6, 2},	// Top
+		{ 0, 3, 7, 7, 4, 0},	// Left
+		{ 1, 2, 6, 6, 5, 1}		// Right
 	};
-	std::vector<MATH::Vec3> tempVertecies;
-	std::vector<MATH::Vec3> tempNormals;
 
-	// Transform the vertices and normals by the center, halfExtents and orientation
-	for (int i = 0; i < 8; i++) {
-		//transform by center
-		MATH::Vec3 vertex = MATH::Vec3(
-			localVertices[i].x * halfExtents.x,
-			localVertices[i].y * halfExtents.y,
-			localVertices[i].z * halfExtents.z
-		) + center;
+	//for (int faceI = 0; faceI < 6; faceI++) {
+	//	// for each face, construct the 6 vertices
+	//	for (int vertexI = 0; vertexI < 6; vertexI++) {
+	//		auto vertexa = indices[faceI][vertexI];
+	//		Vec3 vertex = center + multComponents(halfExtents, localVertices[indices[faceI][vertexI]]);
+	//		vertex = QMath::rotate(vertex, orientation);
+	//		vertices.push_back(vertex);
+	//	}
+	//	//Vec3 normal = QMath::rotate(localNormals[faceI], orientation);
+	//	for (int i = 0; i < 6; i++) {
+	//		//normals.push_back(normal);
+	//		normals.push_back(localNormals[faceI]);
+	//	}
+	//}
 
-		// rotate point
-		vertex = MATH::QMath::rotate(vertex, orientation);
-		MATH::Vec3 normal = MATH::QMath::rotate(localNormals[i % 6], orientation);
-		MATH::VMath::normalize(normal);
 
-		tempVertecies.push_back(vertex);
-		tempNormals.push_back(normal);
-	}
-	// add in the correct order
-	for (int i = 0; i < 36; i++) {
-		vertices.push_back(tempVertecies[indices[i]]);
-		normals.push_back(tempNormals[indices[i] / 6]);// face normal
-	}
-*/
-	// Umer's code
-	using namespace MATH;
-// Set up the eight vertices of the box
-// Umer will do three for now
 	Vec3 topRightFront = center + Vec3(halfExtents.x, halfExtents.y, halfExtents.z);
 	topRightFront = QMath::rotate(topRightFront, orientation);
 
