@@ -57,8 +57,19 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 			//	std::cout << "We have a box" << std::endl;
 			//	auto d = (GEOMETRY::Box) c.shape;
 			//}*/
+			// 
+			// move left
+			cameraTransform->SetTransform(
+				cameraTransform->pos + QMath::rotate(MATH::Vec3(1, 0, 0), cameraTransform->GetOrientation()),
+				cameraTransform->GetOrientation());
+			camera->UpdateViewMatrix();
 		}
 		else if (sdlEvent.key.keysym.scancode == SDL_SCANCODE_RIGHT) {
+			// move right
+			cameraTransform->SetTransform(
+				cameraTransform->pos + QMath::rotate(MATH::Vec3(-1, 0, 0), cameraTransform->GetOrientation()),
+				cameraTransform->GetOrientation());
+			camera->UpdateViewMatrix();
 
 		}
 		else if (sdlEvent.key.keysym.scancode == SDL_SCANCODE_UP) {
