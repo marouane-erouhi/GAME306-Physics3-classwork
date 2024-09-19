@@ -42,29 +42,38 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 	switch (sdlEvent.type) {
 	case SDL_KEYDOWN:
 		if (sdlEvent.key.keysym.scancode == SDL_SCANCODE_LEFT) {
-			Actor* a = (Actor*)actors["ActorCube"].get();
-			TransformComponent transform = a->GetComponent<TransformComponent>().get();
-			//transform.orientation + 
-			Quaternion rotation = QMath::angleAxisRotation(5.0f, MATH::Vec3(1.0f,0.0f, 0.0f));
-			transform.orientation = rotation * transform.orientation;
-			std::cout << "We have a box" << std::endl;
+			//Actor* a = (Actor*)actors["ActorCube"].get();
+			//TransformComponent transform = a->GetComponent<TransformComponent>().get();
+			////transform.orientation + 
+			//Quaternion rotation = QMath::angleAxisRotation(5.0f, MATH::Vec3(1.0f,0.0f, 0.0f));
+			//transform.orientation = rotation * transform.orientation;
+			//std::cout << "We have a box" << std::endl;
 
-			//a.
+			////a.
 
-			/*Component* b = a.get();
-			ShapeComponent* c = (ShapeComponent*)b;
-			if (c->shapeType == ShapeType::box) {
-				std::cout << "We have a box" << std::endl;
-				auto d = (GEOMETRY::Box) c.shape;
-			}*/
+			///*Component* b = a.get();
+			//ShapeComponent* c = (ShapeComponent*)b;
+			//if (c->shapeType == ShapeType::box) {
+			//	std::cout << "We have a box" << std::endl;
+			//	auto d = (GEOMETRY::Box) c.shape;
+			//}*/
 		}
 		else if (sdlEvent.key.keysym.scancode == SDL_SCANCODE_RIGHT) {
 
 		}
 		else if (sdlEvent.key.keysym.scancode == SDL_SCANCODE_UP) {
-
+			// move camera forwards
+			cameraTransform->SetTransform(
+				cameraTransform->pos + QMath::rotate(MATH::Vec3(0, 0, 1), cameraTransform->GetOrientation()),
+				cameraTransform->GetOrientation());
+			camera->UpdateViewMatrix();
 		}
 		else if (sdlEvent.key.keysym.scancode == SDL_SCANCODE_DOWN) {
+			// move back
+			cameraTransform->SetTransform(
+				cameraTransform->pos + QMath::rotate(MATH::Vec3(0, 0, -1), cameraTransform->GetOrientation()),
+				cameraTransform->GetOrientation());
+			camera->UpdateViewMatrix();
 
 		}
 		else if (sdlEvent.key.keysym.scancode == SDL_SCANCODE_D) {
