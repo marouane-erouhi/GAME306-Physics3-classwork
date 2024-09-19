@@ -12,8 +12,8 @@
 		  <Shape name ="CheckerCylinderShape">
 			  <!--TODO for Assignment 1-->
 			  <Cylinder radius="4.0"
-                  capCenterPosAx="0.0" capCenterPosAy="0.0" capCenterPosAz="5.0"
-									capCenterPosBx="0.0" capCenterPosBy="0.0" capCenterPosBz="-5.0"
+                  capCenterPosAx="0.0" capCenterPosAy="0.0" capCenterPosAz="2.5"
+									capCenterPosBx="0.0" capCenterPosBy="0.0" capCenterPosBz="-0.2"
 				/>
 		  </Shape>
 	  </Mesh>
