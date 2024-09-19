@@ -30,5 +30,6 @@ struct Scene0 : public Scene
 	MATH::Vec3 oldMousePos;
 	MATH::Vec3 oldMouseVel;
 	float oldDeltaTime = 0.0f;
+	bool mouseEnabled = false;
 };
 

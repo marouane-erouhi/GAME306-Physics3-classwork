@@ -106,6 +106,7 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 		
 	case SDL_MOUSEBUTTONDOWN:
 		if (sdlEvent.button.button == SDL_BUTTON_LEFT) {
+			mouseEnabled = !mouseEnabled;
 			Vec3 mouseCoords(static_cast<float>(sdlEvent.button.x), static_cast<float>(sdlEvent.button.y), 0.0f);
 			// TODO for Assignment 2: 
 			// Get a ray pointing into the world, We have the x, y pixel coordinates
@@ -128,36 +129,39 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 	}
 
 	// mouse
-	if (sdlEvent.type == SDL_MOUSEMOTION) {
-		int x = sdlEvent.motion.x;
-		int y = sdlEvent.motion.y;
-		// right +x | left -x | up -y | down +y
-		MATH::Vec3 mouseVel = MATH::Vec3(x, y, 0.0f) - oldMousePos;
-		MATH::Vec3 mouseAcc = mouseVel - oldMouseVel;
-		printf("Mouse moved: x=%d\ty=%d\t\t xACC:%f.2\t yACC:%f.2\n", x, y, mouseAcc.x, mouseAcc.y);
+	if (mouseEnabled) {
+		if (sdlEvent.type == SDL_MOUSEMOTION) {
+			int x = sdlEvent.motion.x;
+			int y = sdlEvent.motion.y;
+			// right +x | left -x | up -y | down +y
+			MATH::Vec3 mouseVel = MATH::Vec3(x, y, 0.0f) - oldMousePos;
+			MATH::Vec3 mouseAcc = mouseVel - oldMouseVel;
+			printf("Mouse moved: x=%d\ty=%d\t\t xACC:%f.2\t yACC:%f.2\n", x, y, mouseAcc.x, mouseAcc.y);
 
-		float rotationSpeed = 1.0f;
-		MATH::Vec3 mouseSpeed = mouseVel * oldDeltaTime;
+			float rotationSpeed = 1.0f;
+			MATH::Vec3 mouseSpeed = mouseVel * oldDeltaTime;
 		
 
-		if (mouseVel.x > 0) { // right
-			cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(rotationSpeed, Vec3(0.0f, 1.0f, 0.0f)));
-			camera->UpdateViewMatrix();
-		} else if (mouseVel.x < 0) { // left
-			cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(-rotationSpeed, Vec3(0.0f, 1.0f, 0.0f)));
-			camera->UpdateViewMatrix();
-		} else if (mouseVel.y < 0) { // up
-			cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(rotationSpeed, Vec3(1.0f, 0.0f, 0.0f)));
-			camera->UpdateViewMatrix();
-		} else { // down
-			cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(-rotationSpeed, Vec3(1.0f, 0.0f, 0.0f)));
-			camera->UpdateViewMatrix();
-		}
+			if (mouseVel.x > 0) { // right
+				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(rotationSpeed, Vec3(0.0f, 1.0f, 0.0f)));
+				camera->UpdateViewMatrix();
+			} else if (mouseVel.x < 0) { // left
+				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(-rotationSpeed, Vec3(0.0f, 1.0f, 0.0f)));
+				camera->UpdateViewMatrix();
+			} else if (mouseVel.y < 0) { // up
+				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(rotationSpeed, Vec3(1.0f, 0.0f, 0.0f)));
+				camera->UpdateViewMatrix();
+			} else { // down
+				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(-rotationSpeed, Vec3(1.0f, 0.0f, 0.0f)));
+				camera->UpdateViewMatrix();
+			}
 
-		// update oldMouse
-		oldMousePos.set(x,y,0.0f);
-		oldMouseVel = mouseVel;
+			// update oldMouse
+			oldMousePos.set(x,y,0.0f);
+			oldMouseVel = mouseVel;
+		}
 	}
+
 
 }
 
