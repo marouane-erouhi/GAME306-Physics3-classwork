@@ -145,31 +145,32 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 			int x = sdlEvent.motion.x;
 			int y = sdlEvent.motion.y;
 			// right +x | left -x | up -y | down +y
-			MATH::Vec3 mouseVel = MATH::Vec3(x, y, 0.0f) - oldMousePos;
-			MATH::Vec3 mouseAcc = mouseVel - oldMouseVel;
-			printf("Mouse moved: x=%d\ty=%d\t\t xACC:%f.2\t yACC:%f.2\n", x, y, mouseAcc.x, mouseAcc.y);
+			MATH::Vec3 mouseVel = MATH::Vec3(sdlEvent.motion.xrel, sdlEvent.motion.yrel, 0.0f);
+			//printf("Mouse moved: x=%d\ty=%d\t\t xACC:%f.2\t yACC:%f.2\n", x, y, mouseAcc.x, mouseAcc.y);
 
-			float rotationSpeed = 1.0f;
-			MATH::Vec3 mouseSpeed = mouseVel * oldDeltaTime;
-		
+			float rotationSpeedX = 1.0f;
+			float rotationSpeedY = 0.50f;
 
 			if (mouseVel.x > 0) { // right
-				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(rotationSpeed, Vec3(0.0f, 1.0f, 0.0f)));
+				cameraTransform->SetTransform(
+					cameraTransform->pos,
+					cameraTransform->GetOrientation() * QMath::angleAxisRotation(rotationSpeedX,Vec3(0.0f, 1.0f, 0.0f))
+				);
 				camera->UpdateViewMatrix();
 			} else if (mouseVel.x < 0) { // left
-				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(-rotationSpeed, Vec3(0.0f, 1.0f, 0.0f)));
+				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(-rotationSpeedX, Vec3(0.0f, 1.0f, 0.0f)));
 				camera->UpdateViewMatrix();
-			} else if (mouseVel.y < 0) { // up
-				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(rotationSpeed, Vec3(1.0f, 0.0f, 0.0f)));
+			} 
+			if(mouseVel.y < 0) { // up
+				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(rotationSpeedY, Vec3(1.0f, 0.0f, 0.0f)));
 				camera->UpdateViewMatrix();
 			} else { // down
-				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(-rotationSpeed, Vec3(1.0f, 0.0f, 0.0f)));
+				cameraTransform->SetTransform(cameraTransform->pos, cameraTransform->GetOrientation() * QMath::angleAxisRotation(-rotationSpeedY, Vec3(1.0f, 0.0f, 0.0f)));
 				camera->UpdateViewMatrix();
 			}
 
 			// update oldMouse
 			oldMousePos.set(x,y,0.0f);
-			oldMouseVel = mouseVel;
 		}
 	}
 
