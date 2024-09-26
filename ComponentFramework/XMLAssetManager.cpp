@@ -163,7 +163,7 @@ void XMLAssetManager::AddBoxShape(const tinyxml2::XMLElement* child)
 
 		Quaternion orientation;
 		// TODO: double check this for the w value
-		orientation.w = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("angleDeg");
+		orientation.w = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("angleDegrees");
 		orientation.ijk.x = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("axisX");
 		orientation.ijk.y = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("axisY");
 		orientation.ijk.z = child->FirstChildElement("Shape")->FirstChildElement(shape)->FloatAttribute("axisZ");

@@ -37,16 +37,16 @@
 				/>
 		  </Shape>
 	  </Mesh>
-	  
-	  <Mesh name="CubeMesh" filename="meshes/Cube.obj">
-		  <Shape name ="CubeShape">
-			  <!--TODO for Assignment 1-->
-        <Box centerX="0.0" centerY="0.0" centerZ="0.0"
-             halfExtentsX="1.0" halfExtentsY="1.0" haldExtentsZ="1.0"
-             angleDeg="0.0" axisX="1.0" axisY="0.0" axisZ="0.0"
-				/>
-		  </Shape>
-	  </Mesh>
+
+    <Mesh name="CubeMesh" filename="meshes/Cube.obj">
+      <Shape name ="CubeShape">
+        <Box centreX="0.0" centreY="0.0" centreZ="0.0"
+				   halfExtentsX="1.0" halfExtentsY="1.0" halfExtentsZ="1.0"
+				   angleDegrees="0.0"
+				   axisX="0.0" axisY="1.0" axisZ="0.0"
+				  />
+      </Shape>
+    </Mesh>
 
 	  <!--Setting up materials-->
 	  <Material name="BoardMaterial" filename="textures/8x8_checkered_board.png"/>
@@ -103,16 +103,16 @@
 		  <Physics />
 	  </Actor>
 
-	  <Actor actorname="ActorCube" parent="none">
-		  <Transform posx="1.0" posy="2.0" posz="-16.0"
-					 angleDeg="45.0" axisx="1.0" axisy="1.0" axisz="0.0"
+    <Actor actorname="ActorCube" parent="none">
+      <Transform posx="1.0" posy="1.0" posz="-14.0"
+					 angleDeg="0.0" axisx="1.0" axisy="1.0" axisz="0.0"
 					 scalex="1.0" scaley="1.0" scalez="1.0"/>
-		  <Mesh name="CubeMesh"/>
-		  <Shape name="CubeShape"/>
-		  <Shader name ="Shader"/>
-		  <Material name ="RedCheckerMaterial"/>
-		  <Physics />
-	  </Actor>
+      <Mesh name="CubeMesh"/>
+      <Shape name="CubeShape"/>
+      <Shader name ="Shader"/>
+      <Material name ="RedCheckerMaterial"/>
+      <Physics />
+    </Actor>
 
 	  <Actor actorname="ActorMario" parent="none">
 		  <Transform posx="-7.0" posy="1.0" posz="-15.0"

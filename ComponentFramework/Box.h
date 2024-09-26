@@ -30,7 +30,7 @@ namespace GEOMETRY {
 
 		/// print the values of the sphere and add a comment if you wish
 		void print(const char* comment = nullptr) {
-			if (comment) printf("%s\n", comment);
+			if (comment) printf("%s--------------------\n", comment);
 			printf("Center:%f %f %f\t HalfExtents:%f %f %f\t Orientation:%f %f %f %f\n",
 				center.x, center.y, center.z,
 				halfExtents.x, halfExtents.y, halfExtents.z,
