@@ -20,8 +20,8 @@ inline static Vec3 perpendicular(const Vec3& dir) {
 }
 
 void GEOMETRY::Capsule::generateVerticesAndNormals() {
-	const float deltaTheta = 5.0f; //how many points per ring
-	const float deltaPhi = 5.0f; //how many rings
+	const float deltaTheta = 5.0f; //how many points per ring	- lower the more points
+	const float deltaPhi = 45.0f; //how many rings				- higher the less rings
 
 	Vec3 dir = VMath::normalize(sphereCentrePosB - sphereCentrePosA); // Axis direction
 
@@ -38,8 +38,6 @@ void GEOMETRY::Capsule::generateVerticesAndNormals() {
 			vertices.push_back(circle + sphereCentrePosA);
 			// The normal of a sphere points outwards from the center position Vec3(x, y, z)
 			normals.push_back(circle - Vec3(sphereCentrePosA.x, sphereCentrePosA.y, sphereCentrePosA.z));
-
-
 		}
 	}
 	// half sphere 2 ------------------------
@@ -64,7 +62,6 @@ void GEOMETRY::Capsule::generateVerticesAndNormals() {
 	float distanceBetweenCircles = distanceBetweenCaps / numberOfCircles;
 
 	Vec3 circle(r, 0.0f, 0.0f); // Initial point on the cap
-	Vec3 perp = perpendicular(dir); // Perpendicular vector to the axis
 
 	for (int i = 0; i < numberOfCircles; i++) {
 		for (float phiDeg = 0.0f; phiDeg <= 360; phiDeg += deltaPhi) {
