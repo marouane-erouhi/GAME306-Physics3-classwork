@@ -12,9 +12,18 @@
 #include "ShaderComponent.h"
 #include "MeshComponent.h"
 #include "ShapeComponent.h"
+#include "QuadraticSolver.h"
 
 bool Scene0::OnCreate()
 {
+
+/*	float a = 5.0f;
+	float b = 2.0f;
+	float c = -3.0f;
+
+	GEOMETRY::QuadraticSolution soln = GEOMETRY::solveQuadratic(a, b, c);
+	soln.print()*/;
+
 	XMLAssetManager assetManager;
 	// Make sure these names match the stuff in your xml file:
 	std::vector<std::string> names{ 
@@ -123,8 +132,8 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 		break;
 	}
 
-	// mouse
-	if (mouseEnabled) {
+	// enable/disable mouse look
+	/*if (mouseEnabled) {
 		if (sdlEvent.type == SDL_MOUSEMOTION) {
 			MATH::Vec3 mouseVel = MATH::Vec3(sdlEvent.motion.xrel, sdlEvent.motion.yrel, 0.0f);
 
@@ -147,7 +156,7 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 				camera->UpdateViewMatrix();
 			}
 		}
-	}
+	}*/
 
 
 }
