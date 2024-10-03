@@ -33,7 +33,7 @@
 			  <!--TODO for Assignment 1-->
         <Box centerX="0.0" centerY="0.0" centerZ="-0.2"
              halfExtentsX="5.1" halfExtentsY="5.1" halfExtentsZ="0.1"
-             angleDeg="0.0" axisX="1.0" axisY="0.0" axisZ="0.0"
+             angleDegrees="0.0" axisX="1.0" axisY="0.0" axisZ="0.0"
 				/>
 		  </Shape>
 	  </Mesh>
