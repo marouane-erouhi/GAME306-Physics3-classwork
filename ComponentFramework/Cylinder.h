@@ -36,7 +36,7 @@ namespace GEOMETRY {
 		}
 
 		// TODO for assignment 2:
-		// RayIntersectionInfo rayIntersectionInfo(const Ray& ray) const override;
+		 RayIntersectionInfo rayIntersectionInfo(const Ray& ray) const override;
 		void generateVerticesAndNormals() override;
 	private:
 		//void MakeCircle(float deltaTheta, Vec3& dir_, float distanceBetweenCircles, int currentCircle);

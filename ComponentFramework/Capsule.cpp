@@ -19,6 +19,10 @@ inline static Vec3 perpendicular(const Vec3& dir) {
 	}
 }
 
+RayIntersectionInfo GEOMETRY::Capsule::rayIntersectionInfo(const Ray& ray) const {
+	return RayIntersectionInfo();
+}
+
 void GEOMETRY::Capsule::generateVerticesAndNormals() {
 	const float deltaTheta = 5.0f; //how many points per ring	- lower the more points
 	const float deltaPhi = 45.0f; //how many rings				- higher the less rings

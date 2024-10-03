@@ -10,6 +10,10 @@ MATH::Vec3 multComponents(MATH::Vec3 a, MATH::Vec3 b) {
 	);
 }
 
+GEOMETRY::RayIntersectionInfo GEOMETRY::Box::rayIntersectionInfo(const Ray& ray) const {
+	return RayIntersectionInfo();
+}
+
 void GEOMETRY::Box::generateVerticesAndNormals() {
 	// Set up the eight vertices of the box
 	MATH::Vec3 localVertices[8] = { // +x right - +y top - +z front

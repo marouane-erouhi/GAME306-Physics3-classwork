@@ -7,6 +7,7 @@
 #include "Shape.h"
 #include <Vector.h>
 #include <vector>
+
 namespace GEOMETRY {
 	struct Sphere : public Shape {
 		float r = 1.0f;
@@ -42,7 +43,7 @@ namespace GEOMETRY {
 		}
 
 		// TODO for assignment 2:
-		// RayIntersectionInfo rayIntersectionInfo(const Ray& ray) const override;
+		RayIntersectionInfo rayIntersectionInfo(const Ray& ray) const override;
 		void generateVerticesAndNormals() override;
 	};
 }

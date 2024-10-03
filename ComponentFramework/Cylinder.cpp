@@ -20,6 +20,10 @@ inline static Vec3 perpendicular(const Vec3& dir) {
 	}
 }
 
+RayIntersectionInfo GEOMETRY::Cylinder::rayIntersectionInfo(const Ray& ray) const {
+	return RayIntersectionInfo();
+}
+
 // TODO: Cylinder seems to be missmatched with the model/texture
 void GEOMETRY::Cylinder::generateVerticesAndNormals() {
 	/*
