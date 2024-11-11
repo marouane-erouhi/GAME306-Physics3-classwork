@@ -4,6 +4,9 @@
 #include "Actor.h"
 #include "LightActor.h"
 #include "CameraActor.h"
+#include "Ray.h"
+
+using namespace GEOMETRY;
 
 struct Scene0 : public Scene
 {
@@ -18,6 +21,8 @@ struct Scene0 : public Scene
 	virtual void Render() const;
 	virtual void HandleEvents(const SDL_Event& sdlEvent);
 
+	void HandleLeftClick(const SDL_Event& sdlEvent);
+
 	// Keep track of Actors from XML asset manager
 	std::unordered_map< std::string, Ref<Component>> actors;
 	// We only have one camera and light, so they don't need to be in the map
@@ -25,7 +30,9 @@ struct Scene0 : public Scene
 	Ref<LightActor> light;
 	// TODO for Assignment 2:
 	// We'll use a ray to click on our geometry objects 
-	// GEOMETRY::RayIntersectionInfo rayInfo;
+	RayIntersectionInfo rayInfo;
+	Ref<Actor> pickedActor;
+	bool haveClickedOnSomething = false;
 
 	MATH::Vec3 oldMousePos;
 	float oldDeltaTime = 0.0f;

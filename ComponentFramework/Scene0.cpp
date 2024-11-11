@@ -22,8 +22,8 @@ bool Scene0::OnCreate()
 	float c = -3.0f;
 
 	GEOMETRY::QuadraticSolution soln = GEOMETRY::solveQuadratic(a, b, c);
-	soln.print()*/;
-
+	soln.print();
+*/
 	XMLAssetManager assetManager;
 	// Make sure these names match the stuff in your xml file:
 	std::vector<std::string> names{ 
@@ -110,21 +110,22 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 		
 	case SDL_MOUSEBUTTONDOWN:
 		if (sdlEvent.button.button == SDL_BUTTON_LEFT) {
-			mouseEnabled = !mouseEnabled;
-			Vec3 mouseCoords(static_cast<float>(sdlEvent.button.x), static_cast<float>(sdlEvent.button.y), 0.0f);
-			// TODO for Assignment 2: 
-			// Get a ray pointing into the world, We have the x, y pixel coordinates
-			// Need to convert this into world space to build our ray
+			HandleLeftClick(sdlEvent);
+			//mouseEnabled = !mouseEnabled;
+			//Vec3 mouseCoords(static_cast<float>(sdlEvent.button.x), static_cast<float>(sdlEvent.button.y), 0.0f);
+			//// TODO for Assignment 2: 
+			//// Get a ray pointing into the world, We have the x, y pixel coordinates
+			//// Need to convert this into world space to build our ray
 
-			// Loop through all the actors and check if the ray has collided with them
-			// Pick the one with the smallest positive t value
-			for (auto it = actors.begin(); it != actors.end(); ++it) {
-				Ref<Actor> actor = std::dynamic_pointer_cast<Actor>(it->second);
-				Ref<TransformComponent> transformComponent = actor->GetComponent <TransformComponent>();
-				Ref<ShapeComponent> shapeComponent = actor->GetComponent <ShapeComponent>();
-				// TODO for Assignment 2: 
-				// Transform the ray into the local space of the object and check if a collision occured
-			}
+			//// Loop through all the actors and check if the ray has collided with them
+			//// Pick the one with the smallest positive t value
+			//for (auto it = actors.begin(); it != actors.end(); ++it) {
+			//	Ref<Actor> actor = std::dynamic_pointer_cast<Actor>(it->second);
+			//	Ref<TransformComponent> transformComponent = actor->GetComponent <TransformComponent>();
+			//	Ref<ShapeComponent> shapeComponent = actor->GetComponent <ShapeComponent>();
+			//	// TODO for Assignment 2: 
+			//	// Transform the ray into the local space of the object and check if a collision occured
+			//}
 		}
 		break;
 
@@ -158,6 +159,91 @@ void Scene0::HandleEvents(const SDL_Event& sdlEvent)
 		}
 	}*/
 
+
+}
+
+void Scene0::HandleLeftClick(const SDL_Event& sdlEvent) {
+	Vec3 mouseCoordsPixelSpace(static_cast<float>(sdlEvent.button.x), static_cast<float>(sdlEvent.button.y), 0.0f);
+	//mouseCoordsPixelSpace.print("pixel space");
+
+	Matrix4 ndcToPixelSpace = MMath::viewportNDC(1280, 720);
+	Matrix4 pixelToNdc = MMath::inverse(ndcToPixelSpace);
+
+	// Scott is going to mess with our w component for perspective projection
+	// So I'll flip to Vec4s
+	Vec4 mouseCoordsNdcSpace = pixelToNdc * mouseCoordsPixelSpace;
+	// Put mouse on front of NDC box (it's left handed)
+	mouseCoordsNdcSpace.z = -1;
+	//mouseCoordsNdcSpace.print("NDC space");
+
+	// We need to read Song Ho's website on Scott's perspective matrix
+	// https://songho.ca/opengl/gl_projectionmatrix.html
+	// and Scott's website
+	// https://scottfielder.com/ChalkTalk/projection.html
+
+	Matrix4 cameraToNdc = camera->GetProjectionMatrix();
+	Matrix4 ndcToCamera = MMath::inverse(cameraToNdc);
+	Vec4 mouseCoordsCameraSpace = ndcToCamera * mouseCoordsNdcSpace;
+	// The w coordinae gets messed up by the projection matrix
+	// Song Ho has us covered here:
+	// https://songho.ca/math/homogeneous/homogeneous.html
+	//mouseCoordsCameraSpace.print("Camera space");
+
+	// We live in 3D
+	// So divide out the w component, such that w = 1
+	mouseCoordsCameraSpace = VMath::perspectiveDivide(mouseCoordsCameraSpace);
+	//mouseCoordsCameraSpace.print("Camera space with w divided out");
+
+	Matrix4 worldToCameraSpace = camera->GetViewMatrix();
+	Matrix4 cameraToWorldSpace = MMath::inverse(worldToCameraSpace);
+	Vec4 mouseCoordsWorldSpace = cameraToWorldSpace * mouseCoordsCameraSpace;
+	//mouseCoordsWorldSpace.print("World space");
+
+	Vec3 rayStartWorldSpace = mouseCoordsWorldSpace;
+	// Lucas says we can get the direction of the ray
+	// by taking the difference between the mouse pos and the camera pos
+	Vec3 rayDirWorldSpace = mouseCoordsWorldSpace - camera->GetComponent <TransformComponent>()->pos;
+	rayDirWorldSpace = VMath::normalize(rayDirWorldSpace);
+
+	GEOMETRY::Ray rayWorldSpace(rayStartWorldSpace, rayDirWorldSpace);
+
+	// Loop through all the actors and check if the ray has collided with them
+	// Pick the one with the smallest positive t value
+	for (auto it = actors.begin(); it != actors.end(); ++it) {
+		Ref<Actor> actor = std::dynamic_pointer_cast<Actor>(it->second);
+		Ref<TransformComponent> transformComponent = actor->GetComponent <TransformComponent>();
+		Ref<ShapeComponent> shapeComponent = actor->GetComponent <ShapeComponent>();
+		// TODO for Assignment 2: 
+		// Transform the ray into the local space (ie Paul Neale space) of the object and check if a collision occured
+		if (shapeComponent->shapeType == ShapeType::sphere
+			||
+			shapeComponent->shapeType == ShapeType::cylinder
+			||
+			shapeComponent->shapeType == ShapeType::capsule
+			) {
+			// TODO FOR YOU
+			// How do we handle actors with parents?
+			Matrix4 paulNealeToWorldSpace = transformComponent->GetTransformMatrix();
+			Matrix4 worldToPaulNealeSpace = MMath::inverse(paulNealeToWorldSpace);
+			// Transform the start of the ray
+			Vec3 rayStartPaulNealeSpace = worldToPaulNealeSpace * rayWorldSpace.start;
+			// Transform the direction of the ray
+			// Be careful, we don't want to translate the direction. 
+			// Only rotate using quaternion
+			Quaternion paulNealeToWorldSpaceRotation = transformComponent->GetOrientation();
+			Quaternion worlToPaulNealeSpaceRotation = QMath::conjugate(paulNealeToWorldSpaceRotation);
+			Vec3 rayDirPaulNealeSpace = QMath::rotate(rayWorldSpace.dir, worlToPaulNealeSpaceRotation);
+			GEOMETRY::Ray rayPaulNealeSpace(rayStartPaulNealeSpace, rayDirPaulNealeSpace);
+			// Shoot the ray at the sphere or cylinder
+			rayInfo = shapeComponent->shape->rayIntersectionInfo(rayPaulNealeSpace);
+			if (rayInfo.isIntersected) {
+				std::cout << "You picked: " << it->first << '\n';
+				pickedActor = actor; // make a member variable called pickedActor. Will come in handy later…
+				haveClickedOnSomething = true; // make this a member variable too. Set it to false before we loop over each actor
+			}
+
+		}
+	}
 
 }
 

@@ -156,6 +156,7 @@
     <ClCompile Include="LightActor.cpp" />
     <ClCompile Include="MaterialComponent.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="QuadraticSolver.cpp" />
     <ClCompile Include="Scene0.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Main.cpp" />

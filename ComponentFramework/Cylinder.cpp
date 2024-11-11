@@ -1,27 +1,69 @@
 #include "Cylinder.h"
 #include <MMath.h>
+#include "QuadraticSolver.h"
 
 using namespace MATH;
 using namespace GEOMETRY;
 
-inline static Vec3 perpendicular(const Vec3& dir) {
-	/// The 0.01 added are for preventing division by zero
-	// If dir is not parallel to the x-axis, choose (1, 0, 0) as the arbitrary vector
-	if (fabs(dir.x) < fabs(dir.y) && fabs(dir.x) < fabs(dir.z)) {
-		return VMath::normalize(VMath::cross(Vec3(1.0f, 0.01f, 0.01f), dir));
-	}
-	// If dir is not parallel to the y-axis, choose (0, 1, 0)
-	else if (fabs(dir.y) < fabs(dir.x) && fabs(dir.y) < fabs(dir.z)) {
-		return VMath::normalize(VMath::cross(Vec3(0.01f, 1.0f, 0.01f), dir));
-	}
-	// Otherwise, use (0, 0, 1) for the z-axis
-	else {
-		return VMath::normalize(VMath::cross(Vec3(0.01f, 0.01f, 1.0f), dir));
-	}
-}
+//inline static Vec3 perpendicular(const Vec3& dir) {
+//	/// The 0.01 added are for preventing division by zero
+//	// If dir is not parallel to the x-axis, choose (1, 0, 0) as the arbitrary vector
+//	if (fabs(dir.x) < fabs(dir.y) && fabs(dir.x) < fabs(dir.z)) {
+//		return VMath::normalize(VMath::cross(Vec3(1.0f, 0.01f, 0.01f), dir));
+//	}
+//	// If dir is not parallel to the y-axis, choose (0, 1, 0)
+//	else if (fabs(dir.y) < fabs(dir.x) && fabs(dir.y) < fabs(dir.z)) {
+//		return VMath::normalize(VMath::cross(Vec3(0.01f, 1.0f, 0.01f), dir));
+//	}
+//	// Otherwise, use (0, 0, 1) for the z-axis
+//	else {
+//		return VMath::normalize(VMath::cross(Vec3(0.01f, 0.01f, 1.0f), dir));
+//	}
+//}
 
 RayIntersectionInfo GEOMETRY::Cylinder::rayIntersectionInfo(const Ray& ray) const {
-	return RayIntersectionInfo();
+	RayIntersectionInfo result;
+
+	// get Cylinder Axis
+	MATH::Vec3 cylinderAxis = capCenterPosB - capCenterPosA;
+	float cylinderHeight = VMath::mag(cylinderAxis);
+	cylinderAxis = VMath::normalize(cylinderAxis);
+
+	/// project Ray and Cylinder onto Plane Perpendicular to Cylinder Axis
+	MATH::Vec3 originToCapA = ray.start - capCenterPosA;
+
+	/// compute intersection or Ray against the "infinite" Cylinder
+	float axisLengthSquared = 1;// VMath::dot(cylinderAxis, cylinderAxis);
+	float axisDotRayDir = VMath::dot(cylinderAxis, ray.dir);
+	float axisDotOriginToCapA = VMath::dot(cylinderAxis, originToCapA);
+
+	float a = axisLengthSquared - axisDotRayDir * axisDotRayDir;
+	float b = axisLengthSquared * VMath::dot(originToCapA, ray.dir) - axisDotOriginToCapA * axisDotRayDir;
+	float c = axisLengthSquared * VMath::dot(originToCapA, originToCapA) - axisDotOriginToCapA * axisDotOriginToCapA - r * r * axisLengthSquared;
+
+	QuadraticSolution sln = solveQuadratic(a, b, c);
+	if (sln.numSolutions == NumSolutions::zero) {
+		return result;  // No intersection
+	}
+
+	// Check both solutions for intersection within cylinder bounds
+	for (float t : {sln.firstSolution, sln.secondSolution}) {
+		if (t < 0) continue;  // Ignore intersections behind the ray origin
+
+		MATH::Vec3 pointOnRay = ray.start + t * ray.dir;
+		float distanceAlongAxis = VMath::dot((pointOnRay - capCenterPosA), cylinderAxis);
+		//float distanceAlongAxis = (pointOnRay - capCenterPosA).dot(cylinderAxis);
+
+		// Check if point is within the cylinder height
+		if (distanceAlongAxis >= 0 && distanceAlongAxis <= cylinderHeight) {
+			result.isIntersected = true;
+			result.intersectionPoint = pointOnRay;
+			result.t = t;
+			return result;  // Return the nearest valid intersection
+		}
+	}
+
+	return result;// no valid intersection withing haight
 }
 
 // TODO: Cylinder seems to be missmatched with the model/texture
